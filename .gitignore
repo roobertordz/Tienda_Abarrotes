@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+*.log
+uploads/*
+!uploads/.gitkeep
+
+# Electron build artifacts (installers/binaries, generated compiled code)
+electron/dist-installers
+electron/backend-dist
+electron/frontend-dist

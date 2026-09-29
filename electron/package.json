@@ -1,0 +1,91 @@
+{
+  "name": "pos-abarrotes-desktop",
+  "version": "1.0.0",
+  "description": "Sistema POS para tiendas de abarrotes — versión escritorio",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win --x64"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "prisma": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "pdfkit": "^0.15.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.6.3"
+  },
+  "build": {
+    "appId": "com.posstore.abarrotes",
+    "productName": "POS Abarrotes",
+    "copyright": "Copyright © 2024",
+    "asar": false,
+    "directories": {
+      "output": "dist-installers"
+    },
+    "files": [
+      "main.js",
+      "loading.html",
+      "backend-dist/**/*",
+      "frontend-dist/**/*",
+      "prisma/**/*",
+      "node_modules/**/*",
+      "!node_modules/electron/**",
+      "!node_modules/electron-builder/**",
+      "!node_modules/.cache/**",
+      "!**/*.{ts,tsx,d.ts,map}",
+      "!**/node_modules/*/{README.md,CHANGELOG.md,readme.md,changelog.md}",
+      "!**/node_modules/*/{test,tests,__tests__,example,examples}/**"
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/.prisma",
+        "to": "app/node_modules/.prisma"
+      },
+      {
+        "from": "node_modules/call-bind-apply-helpers",
+        "to": "app/node_modules/call-bind-apply-helpers"
+      }
+    ],
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["arm64"] },
+        { "target": "dmg", "arch": ["x64"] }
+      ],
+      "category": "public.app-category.business",
+      "artifactName": "POS-Abarrotes-${version}-${arch}.dmg"
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ],
+      "artifactName": "POS-Abarrotes-Setup-${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "POS Abarrotes"
+    },
+    "dmg": {
+      "title": "POS Abarrotes",
+      "window": { "width": 540, "height": 380 }
+    }
+  }
+}

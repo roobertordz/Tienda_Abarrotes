@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pos-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: pos_abarrotes
+      POSTGRES_USER: pos_user
+      POSTGRES_PASSWORD: pos_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pos-backend
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:3001:3001"
+    environment:
+      DATABASE_URL: "postgresql://pos_user:pos_password@postgres:5432/pos_abarrotes"
+      JWT_SECRET: "${JWT_SECRET:-tu_clave_secreta_produccion_cambiar}"
+      JWT_EXPIRES_IN: "8h"
+      PORT: "3001"
+      STORE_NAME: "${STORE_NAME:-Tienda de Abarrotes}"
+      STORE_ADDRESS: "${STORE_ADDRESS:-Dirección de la tienda}"
+      STORE_RFC: "${STORE_RFC:-XAXX010101000}"
+      STORE_PHONE: "${STORE_PHONE:-55-0000-0000}"
+      MP_ACCESS_TOKEN: "${MP_ACCESS_TOKEN:-}"
+      MP_DEVICE_ID: "${MP_DEVICE_ID:-}"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: pos-frontend
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
