@@ -88,6 +88,29 @@ docker compose up -d
 
 La aplicación estará disponible en `http://localhost`.
 
+### Opción 3: Ejecutable de escritorio (Windows / Mac)
+
+También existe una versión de escritorio (Electron) que no requiere instalar Node.js, PostgreSQL ni configurar nada manualmente: incluye backend, frontend y base de datos empaquetados en un solo instalador.
+
+- **Windows**: `POS-Abarrotes-Setup-1.0.0.exe`
+- **macOS (Apple Silicon)**: `POS-Abarrotes-1.0.0-arm64.dmg`
+- **macOS (Intel)**: `POS-Abarrotes-1.0.0-x64.dmg`
+
+Pasos:
+1. Descarga el instalador correspondiente a tu sistema operativo (sección [Releases](https://github.com/roobertordz/Tienda_Abarrotes/releases) del repositorio, o generado localmente).
+2. Ejecuta el instalador:
+   - **Windows**: doble clic en el `.exe` y sigue el asistente.
+   - **Mac**: abre el `.dmg` y arrastra la app a la carpeta `Aplicaciones`. Si macOS bloquea la app por venir de un desarrollador no identificado, ve a `Preferencias del Sistema → Privacidad y Seguridad` y presiona "Abrir de todas formas".
+3. Abre la aplicación **POS Abarrotes** desde el menú de inicio (Windows) o Launchpad (Mac). No necesitas conexión a internet ni servicios externos: todo corre localmente.
+
+> Los instaladores no se incluyen dentro del repositorio (pesan varios cientos de MB), pero puedes generarlos tú mismo con:
+> ```bash
+> bash scripts/build-electron.sh          # empaqueta para tu plataforma actual
+> bash scripts/build-electron.sh --mac    # solo Mac (.dmg)
+> bash scripts/build-electron.sh --win    # solo Windows (.exe), requiere ejecutarse en Windows
+> ```
+> El resultado se genera en `electron/dist-installers/`.
+
 ---
 
 ## 🔐 Credenciales de Prueba
